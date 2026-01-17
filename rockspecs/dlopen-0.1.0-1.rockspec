@@ -15,10 +15,13 @@ dependencies = {
     "lua >= 5.1",
 }
 external_dependencies = {
-    LIBFFI = {
-        header = "ffi.h",
-        library = "ffi",
-    },
+    LIBFFI = {},
+}
+external_dependencies = {
+    LIBFFI = {},
+}
+build_dependencies = {
+    "luarocks-build-builtin-hook >= 0.1.0",
 }
 build = {
     type = "builtin",
