@@ -1,3 +1,4 @@
+rockspec_format = "3.0"
 package = "dlopen"
 version = "dev-1"
 source = {
@@ -14,13 +15,14 @@ dependencies = {
     "lua >= 5.1",
 }
 external_dependencies = {
-    LIBFFI = {
-        header = "ffi.h",
-        library = "ffi",
-    },
+    LIBFFI = {},
+}
+build_dependencies = {
+    "luarocks-build-builtin-hook >= 0.1.0",
 }
 build = {
-    type = "builtin",
+    type = "builtin-hook",
+    before_build = "$(pkgconfig)",
     modules = {
         dlopen = {
             sources = {
