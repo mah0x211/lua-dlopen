@@ -293,7 +293,8 @@ static int symcall_lua(lua_State *L)
             switch (lua_type(L, index)) {
             case LUA_TNIL:
             case LUA_TNONE:
-                arg_values[i] = NULL;
+                args[i].p     = NULL;
+                arg_values[i] = &args[i].p;
                 break;
             case LUA_TLIGHTUSERDATA:
             case LUA_TUSERDATA:
@@ -312,7 +313,8 @@ static int symcall_lua(lua_State *L)
             switch (lua_type(L, index)) {
             case LUA_TNIL:
             case LUA_TNONE:
-                arg_values[i] = NULL;
+                args[i].p     = NULL;
+                arg_values[i] = &args[i].p;
                 break;
             case LUA_TSTRING:
                 CHECK_RVAL2LVAL(arg_values[i], args[i].p, lua_tostring);

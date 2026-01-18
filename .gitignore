@@ -1,3 +1,8 @@
 *.o
+*.so
 *.s
 *.txt
+*.gcda
+*.gcno
+*.info
+coverage/
