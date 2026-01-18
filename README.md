@@ -202,6 +202,13 @@ The following string identifiers can be used for `return_type` and `arg_types` i
 - Currently not supported; arrays require special handling in libffi
 - Design: `dlopen:dlsym(return_type, function_name, type[], length)` or similar syntax
 
+### **Pointer-to-Pointer Types**: Support `void**` and `char**` types
+
+- Functions like `strtol` require pointer-to-pointer arguments (`char **endptr`)
+- Current limitation: using `void*` for `char**` causes type mismatch and undefined behavior
+- Design: Add `void**` and `char**` type strings to properly handle output parameters
+- Example: `lib:dlsym('long', 'strtol', 'char*', 'char**', 'int')`
+
   
 ## Under Consideration
 
