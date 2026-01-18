@@ -18,11 +18,19 @@ external_dependencies = {
     LIBFFI = {},
 }
 build_dependencies = {
-    "luarocks-build-builtin-hook >= 0.1.0",
+    "luarocks-build-builtin-hook >= 0.2.0",
+    "configh >= 0.3.0",
 }
 build = {
     type = "builtin-hook",
-    before_build = "$(pkgconfig)",
+    before_build = {
+        "$(pkgconfig)",
+        "$(extra-vars)",
+        "preprocess.lua",
+    },
+    extra_variables = {
+        CFLAGS = "-Wall -Wno-trigraphs -Wmissing-field-initializers -Wreturn-type -Wmissing-braces -Wparentheses -Wno-switch -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wunknown-pragmas -Wshadow -Wsign-compare",
+    },
     modules = {
         dlopen = {
             sources = {

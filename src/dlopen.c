@@ -19,8 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include "./config.h"
+// POSIX
 #include <dlfcn.h>
 #include <ffi.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 // Lua
@@ -107,8 +110,10 @@ static inline const char *ffi_status_message(ffi_status st)
         return "FFI_BAD_TYPEDEF (invalid ffi_type definition)";
     case FFI_BAD_ABI:
         return "FFI_BAD_ABI (unsupported ABI)";
+#ifdef HAS_FFI_BAD_ARGTYPE
     case FFI_BAD_ARGTYPE:
         return "FFI_BAD_ARGTYPE (invalid argument type)";
+#endif
     default:
         return "FFI_UNKNOWN_STATUS";
     }
@@ -253,7 +258,6 @@ static int symcall_lua(lua_State *L)
     void *ret_value                = RETVAL[sym->ret_type];
     // prepare argument values
     callval_u args[FFI_MAX_ARGS]   = {0};
-    void *ARGVALS[FFI_MAX_ARGS]    = {NULL};
     void *arg_values[FFI_MAX_ARGS] = {NULL};
 
     // check number of arguments
@@ -437,7 +441,7 @@ static int dlsym_lua(lua_State *L)
     name          = luaL_checklstring(L, 3, &len);
     // check arguments
     sym->nargs    = nargs - 2; // exclude return type and function name
-    for (int i = 0; i < sym->nargs; i++) {
+    for (size_t i = 0; i < sym->nargs; i++) {
         sym->arg_types[i] = check_ffitype(L, 4 + i, &sym->arg_ffi_types[i]);
         if (sym->arg_types[i] == T_VOID) {
             lua_pushboolean(L, 0);
@@ -493,7 +497,6 @@ static int dso_close(lua_State *L, dso_t *dso)
 {
     void *handle   = dso->handle;
     syminfo_t *sym = dso->symbols_head;
-    int rv         = 0;
 
     if (handle) {
         // free path
