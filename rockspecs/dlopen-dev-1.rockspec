@@ -18,11 +18,11 @@ external_dependencies = {
     LIBFFI = {},
 }
 build_dependencies = {
-    "luarocks-build-builtin-hook >= 0.2.0",
+    "luarocks-build-hooks >= 0.1.0",
     "configh >= 0.3.0",
 }
 build = {
-    type = "builtin-hook",
+    type = "hooks",
     before_build = {
         "$(pkgconfig)",
         "$(extra-vars)",
