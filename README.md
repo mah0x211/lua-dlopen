@@ -1,5 +1,8 @@
 # lua-dlopen
 
+[![test](https://github.com/mah0x211/lua-dlopen/actions/workflows/test.yml/badge.svg)](https://github.com/mah0x211/lua-dlopen/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/mah0x211/lua-dlopen/branch/master/graph/badge.svg)](https://codecov.io/gh/mah0x211/lua-dlopen)
+
 Call C functions in shared libraries using libffi for Lua.
 
 This module allows you to load shared libraries (`.so`, `.dylib`, `.dll`) into your Lua scripts, look up functions within those libraries, and call them as if they were native Lua functions. It handles the conversion of data types between Lua and C.
@@ -188,14 +191,6 @@ The following string identifiers can be used for `return_type` and `arg_types` i
 
 
 ## TODO
-
-### **Test Suite**: Add comprehensive test coverage
-
-- Unit tests for each supported data type
-- Integration tests with real C libraries
-- Error handling tests (invalid types, missing symbols, etc.)
-- Platform-specific tests (Linux, macOS)
-- Automated testing on multiple platforms
 
 ### **Array Support**: Implement passing arrays to C functions
 
