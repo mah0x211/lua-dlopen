@@ -14,11 +14,9 @@ description = {
 dependencies = {
     "lua >= 5.1",
 }
-external_dependencies = {
-    LIBFFI = {},
-}
+external_dependencies = {}
 build_dependencies = {
-    "luarocks-build-hooks >= 0.1.0",
+    "luarocks-build-hooks >= 0.6.0",
     "configh >= 0.3.0",
 }
 build = {
@@ -26,10 +24,20 @@ build = {
     before_build = {
         "$(pkgconfig)",
         "$(extra-vars)",
-        "preprocess.lua",
+        "$(configh)",
+        -- "preprocess.lua",
+    },
+    pkgconfig_dependencies = {
+        ["LIBFFI"] = {},
     },
     extra_variables = {
         CFLAGS = "-Wall -Wno-trigraphs -Wmissing-field-initializers -Wreturn-type -Wmissing-braces -Wparentheses -Wno-switch -Wunused-function -Wunused-label -Wunused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wunknown-pragmas -Wshadow -Wsign-compare",
+    },
+    conditional_variables = {
+        DLOPEN_COVERAGE = {
+            CFLAGS = "--coverage",
+            LIBFLAG = "--coverage",
+        },
     },
     modules = {
         dlopen = {
@@ -44,6 +52,21 @@ build = {
             },
             libdirs = {
                 "$(LIBFFI_LIBDIR)",
+            },
+            configh = {
+                cc = "$(CC)",
+                output = "src/config.h",
+                incdirs = {
+                    "$(LIBFFI_INCDIR)",
+                },
+                decls = {
+                    ['ffi.h'] = {
+                        'FFI_OK',
+                        'FFI_BAD_TYPEDEF',
+                        'FFI_BAD_ABI',
+                        'FFI_BAD_ARGTYPE',
+                    },
+                },
             },
         },
     },
